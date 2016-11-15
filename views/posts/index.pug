@@ -1,0 +1,17 @@
+extends ../application.pug
+
+block content
+  .container
+    h1 Listing posts
+    hr
+    each post in posts
+      .card.card-block
+        .row
+          .col-md-4.hidden-md-down
+            img(src=post.imageURL alt=post.title + " Cover Image" class="img-fluid")
+          .col-xs-12.col-md-8
+            a(href="/posts/" + post.id)
+              h2= post.title
+            h5= post.author
+            p= post.description
+            .row

@@ -1,0 +1,23 @@
+extends ../application.pug
+
+block content
+  .container
+    .row
+      .col-xs-8.offset-xs-2
+        h1 Create a New post
+        hr
+        form(action="/posts" method="POST")
+          div(class="form-group")
+            label(for="post-title") Title
+            input(name="title" type="text" class="form-control" id="post-title")
+          div(class="form-group")
+            label(for="post-cover-image") Cover Image URL
+            input(name="imageURL" type="text" class="form-control" id="post-cover-image")
+          div(class="form-group")
+            label(for="post-author") Author
+            input(name="author" type="text" class="form-control" id="post-author")
+          div(class="form-group")
+            label(for="post-description") Description
+            textarea(name="description" class="form-control" rows=5 id="post-description")
+          div(class="form-group text-xs-right")
+            button(type="submit" class="btn btn-lg btn-success") Create a post
