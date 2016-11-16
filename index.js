@@ -10,6 +10,8 @@ var app = express(),
 
 var postsRouter = require('./routes/posts');
 
+var db = require('./models');
+
 var post = sequelize.define('post', {
   title: Sequelize.STRING,
   imageURL: Sequelize.STRING,
@@ -23,8 +25,6 @@ app.use(morgan('dev'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-
 app.set('view engine', 'pug');
 
 app.get('/', (request, response) => {
@@ -32,7 +32,9 @@ app.get('/', (request, response) => {
 });
 
 app.get('/posts', (request, response) => {
-  post.findAll().then((posts) => {
+
+ db.Post.findAll({ order: [['createdAt', 'DESC']]
+}).then((posts) => {
     response.render('posts/index', { posts: posts });
   });
 });
@@ -47,9 +49,15 @@ app.get('/posts/new', (request, response) => {
   response.render('posts/new');
 });
 
-
-
 app.use('/posts', postsRouter);
+
+app.post('/comments', (req, res) => {
+  db.Comment.create(req.body).then((comment) => {
+    return comment.getPost().then((post) => {
+      res.redirect('/' + post.slug);
+    });
+  });
+});
 
 sequelize.sync().then(() => {
   console.log('Connected to database');
