@@ -11,3 +11,22 @@ block content
           h5= post.author
           p= post.description
           .row
+
+    .card.card-block
+      h1 Comments
+      hr
+      //- each comment in comments
+      //-   .card.card-block
+      //-     .col-xs-12.col-md-8
+      //-       h2= comment.title
+      //-       h5= comment.author
+      //-       p= comment.description
+      //-
+      //- .card.card-block
+      //-
+      //-   h1 Add a comment:
+      //-   form(action='/comments', method='POST')
+      //-     input(type='hidden' name='PostId' value='post.id' .form-group)
+      //-     textarea.form-control(rows='5', name='content' .form-group.text-xs-right)
+      //-
+      //-     button.btn.btn-success(type='submit') Add comment

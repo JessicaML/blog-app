@@ -33,7 +33,7 @@ router.get('/new', (request, response) => {
 
 router.get('/:id', (request, response) => {
   post.findById(request.params.id).then((post) => {
-    response.render('posts/show', { post: post });
+    response.render('posts/show', { post: post, comment: comment });
   });
 });
 

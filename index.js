@@ -12,13 +12,6 @@ var postsRouter = require('./routes/posts');
 
 var db = require('./models');
 
-var post = sequelize.define('post', {
-  title: Sequelize.STRING,
-  imageURL: Sequelize.STRING,
-  author: Sequelize.STRING,
-  description: Sequelize.TEXT
-});
-
 app.use(express.static('public'));
 
 app.use(morgan('dev'));
@@ -33,7 +26,7 @@ app.get('/', (request, response) => {
 
 app.get('/posts', (request, response) => {
 
- db.Post.findAll({ order: [['createdAt', 'DESC']]
+ db.post.findAll({ order: [['createdAt', 'DESC']]
 }).then((posts) => {
     response.render('posts/index', { posts: posts });
   });
@@ -51,11 +44,32 @@ app.get('/posts/new', (request, response) => {
 
 app.use('/posts', postsRouter);
 
+
 app.post('/comments', (req, res) => {
   db.Comment.create(req.body).then((comment) => {
     return comment.getPost().then((post) => {
       res.redirect('/' + post.slug);
     });
+  });
+});
+
+app.get('/', (req, res) => {
+  db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
+    res.render('index', { blogPosts: blogPosts });
+  });
+});
+
+app.get('/:slug', (req, res) => {
+  db.Post.findOne({
+    where: {
+      slug: req.params.slug
+    }
+  }).then((post) => {
+    return post.getComments().then((comments) => {
+      res.render('posts/show', { post: post, comments: comments });
+    });
+  }).catch((error) => {
+    res.status(404).end();
   });
 });
 
