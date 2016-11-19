@@ -26,6 +26,7 @@ app.use(methodOverride(function (req, res) {
 
 app.use('/admin', adminRouter);
 
+
 app.post('/comments', (req, res) => {
   db.Comment.create(req.body).then((comment) => {
     return comment.getPost().then((post) => {

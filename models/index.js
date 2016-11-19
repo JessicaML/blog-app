@@ -13,6 +13,8 @@ if (config.use_env_variable) {
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+// sequelize = new Sequelize('blog-app', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, { dialect: 'postgres' });
+
 
 fs
   .readdirSync(__dirname)

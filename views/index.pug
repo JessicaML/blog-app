@@ -19,9 +19,7 @@ block content
     each blogPost in blogPosts
       .card.card-block
         .col-xs-12.col-md-8
-          img(src=post.imageURL alt=post.title + " Cover Image" class="img-fluid")
         .col-md-8
-          a(href="/posts/" + post.id)
-            h2= post.title
-          p= post.content
-          .row
+          a(href="/posts/" + blogPost.slug)
+            h2= blogPost.title
+            p= blogPost.content

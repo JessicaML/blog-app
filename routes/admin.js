@@ -1,6 +1,10 @@
 var express = require('express'),
     db = require('../models'),
+    bodyParser = require('body-parser'),
     router = express.Router();
+
+router.use(bodyParser.urlencoded({ extended: false}));
+
 
 router.get('/posts', (req, res) => {
   db.Post.findAll().then((blogPosts) => {
@@ -13,6 +17,10 @@ router.get('/posts', (req, res) => {
 router.get('/posts/new', (req, res) => {
   res.render('posts/new');
 });
+
+// router.get('/posts/'+ blogPost.slug, (req, res) => {
+//   res.render('posts/show');
+// });
 
 router.get('/posts/:id/edit', (req, res) => {
   db.Post.findOne({
