@@ -5,7 +5,7 @@ var express = require('express'),
 
 router.use(bodyParser.urlencoded({ extended: false}));
 
-
+//gets home page
 router.get('/posts', (req, res) => {
   db.Post.findAll().then((blogPosts) => {
     res.render('posts/index', { blogPosts: blogPosts });
@@ -14,14 +14,12 @@ router.get('/posts', (req, res) => {
   });
 });
 
+//gets new page
 router.get('/posts/new', (req, res) => {
   res.render('posts/new');
 });
 
-// router.get('/posts/'+ blogPost.slug, (req, res) => {
-//   res.render('posts/show');
-// });
-
+//gets edit pg
 router.get('/posts/:id/edit', (req, res) => {
   db.Post.findOne({
     where: {
@@ -32,12 +30,15 @@ router.get('/posts/:id/edit', (req, res) => {
   });
 });
 
+//posts blogpost to db
 router.post('/posts', (req, res) => {
+  console.log("this works");
   db.Post.create(req.body).then((post) => {
     res.redirect('/' + post.slug);
   });
 });
 
+//posts edited blog data to db
 router.put('/posts/:id', (req, res) => {
   db.Post.update(req.body, {
     where: {
@@ -48,6 +49,7 @@ router.put('/posts/:id', (req, res) => {
   });
 });
 
+//deletes  blog data in db
 router.delete('/posts/:id', (req, res) => {
   db.Post.destroy({
     where: {

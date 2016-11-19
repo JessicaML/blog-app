@@ -15,6 +15,9 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 
+app.use(bodyParser.urlencoded({ extended: false}));
+
+
 app.use(methodOverride(function (req, res) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
@@ -27,25 +30,41 @@ app.use(methodOverride(function (req, res) {
 app.use('/admin', adminRouter);
 
 
-app.post('/comments', (req, res) => {
-  db.Comment.create(req.body).then((comment) => {
-    return comment.getPost().then((post) => {
+// comment posted to db
+app.post('/posts/:id/comments', (req, res) => {
+  db.Post.findById(req.params.id).then((post) => {
+    var comment = req.body;
+    comment.PostId = post.id;
+
+    db.Comment.create(comment).then(() => {
       res.redirect('/' + post.slug);
     });
   });
 });
 
+
+
+//gets homepage list of posts
 app.get('/', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
     res.render('index', { blogPosts: blogPosts});
   });
 });
 
+//get post show page
 app.get('/:slug', (req, res) => {
+  console.log("now this works");
+  console.log(req.params.slug);
+  console.log(req.params);
+  console.log("ok");
   db.Post.findOne({
     where: {
       slug: req.params.slug
     }
+  }).then((post) => {
+    return post.getComments().then((comments) => {
+      res.render('posts/show', { post: post, comments: comments });
+    });
   }).catch((error) => {
     res.status(404).end();
   });

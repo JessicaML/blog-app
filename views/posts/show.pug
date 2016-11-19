@@ -5,25 +5,23 @@ block content
     .card.card-block
       .row
         .col-md-4.hidden-md-down
-          img(src=post.imageURL alt=post.title + " Cover Image" class="img-fluid")
         .col-xs-12.col-md-8
           h2= post.title
           h5= post.content
           .row
 
     .card.card-block
-      h1 Comments
+      h3 Comments
       hr
       each comment in comments
         .card.card-block
           .col-xs-12.col-md-8
-            h5= comment.content
+            //- h5= comment.content
 
       .card.card-block
 
-        h1 Add a comment:
+        h3 Add a comment:
         form(action='/comments', method='POST')
-          input(type='hidden' name='PostId' value='post.id' .form-group)
-          textarea.form-control(rows='5', name='content' .form-group.text-xs-right)
-
+          //- input(type='hidden' name='PostId' value='post.id' .form-group)
+          textarea.form-control(rows='5', name='content' .form-group)
           button.btn.btn-success(type='submit') Add comment
