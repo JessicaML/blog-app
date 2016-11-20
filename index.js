@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(methodOverride(function (req, res) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
-    var method = req.body._metmethod-overridehod;
+    var method = req.body._method;
     delete req.body._method;
     return method;
   }
@@ -32,7 +32,9 @@ app.use('/admin', adminRouter);
 
 // comment posted to db
 app.post('/posts/:id/comments', (req, res) => {
+  console.log("hiya!!!");
   console.log(req.params.id);
+  console.log(req.params);
   console.log(req.body);
 
   db.Post.findById(req.params.id).then((post) => {
@@ -43,8 +45,9 @@ app.post('/posts/:id/comments', (req, res) => {
       res.redirect('/' + post.slug);
 
       console.log(db.Comment);
+      console.log(comment.content);
 
-    });
+        });
   });
 });
 
@@ -59,10 +62,6 @@ app.get('/', (req, res) => {
 
 //get post show page
 app.get('/:slug', (req, res) => {
-  console.log("now this works");
-  console.log(req.params.slug);
-  console.log(req.params);
-  console.log("ok");
   db.Post.findOne({
     where: {
       slug: req.params.slug

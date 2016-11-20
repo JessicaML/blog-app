@@ -38,15 +38,10 @@ router.post('/posts', (req, res) => {
   });
 });
 
-console.log(db.Comment);
-
-console.log("yes");
 //posts comment
 router.post('/posts/:id/comments', (req, res) => {
-  console.log('hi');
-  console.log(req.params.id);
-  console.log(req.body);
-
+  console.log(req.params.content);
+  console.log(db.comment);
   db.Post.findById(req.params.id).then((post) => {
     var comment = req.body;
     comment.PostId = post.id;
@@ -59,16 +54,6 @@ router.post('/posts/:id/comments', (req, res) => {
   });
 });
 
-//posts edited blog data to db
-router.put('/posts/:id', (req, res) => {
-  db.Post.update(req.body, {
-    where: {
-      id: req.params.id
-    }
-  }).then(() => {
-    res.redirect('/admin/posts');
-  });
-});
 
 //deletes  blog data in db
 router.delete('/posts/:id', (req, res) => {

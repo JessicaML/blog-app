@@ -16,11 +16,11 @@ block content
       each comment in comments
         .card.card-block
           .col-xs-12.col-md-8
-            //- h5= comment.content
+            h5= comment.content
 
       .card.card-block
         h3 Add a comment:
-        form(action="/posts/" + post.id + "/comments", method='POST' id="")
-          input(type='hidden' name='PostId' value='post.id' .form-group)
-          textarea.form-control(rows='5', name='content' .form-group)
+        form(action="/posts/" + post.id + "/comments", method='POST')
+          input(type='hidden' name='PostId' value="post.id" .form-group)
+          textarea.form-control(rows='5', name='content' value=post.id .form-group)
           button.btn.btn-success(type='submit') Add comment
