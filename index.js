@@ -17,7 +17,6 @@ app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({ extended: false}));
 
-
 app.use(methodOverride(function (req, res) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
@@ -29,24 +28,13 @@ app.use(methodOverride(function (req, res) {
 
 app.use('/admin', adminRouter);
 
-
 // comment posted to db
 app.post('/posts/:id/comments', (req, res) => {
-  console.log("hiya!!!");
-  console.log(req.params.id);
-  console.log(req.params);
-  console.log(req.body);
-
   db.Post.findById(req.params.id).then((post) => {
     var comment = req.body;
     comment.PostId = post.id;
-
     db.Comment.create(comment).then(() => {
       res.redirect('/' + post.slug);
-
-      console.log(db.Comment);
-      console.log(comment.content);
-
         });
   });
 });

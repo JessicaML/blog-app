@@ -4,22 +4,21 @@ block content
   .container
     .card.card-block
       .row
-        .col-md-4.hidden-md-down
         .col-xs-12.col-md-8
-          h2= post.title
-          h5= post.content
+          h1= post.title
+          p= post.content
           .row
 
     .card.card-block
-      h3 Comments
+      h5 Comments
       hr
       each comment in comments
         .card.card-block
           .col-xs-12.col-md-8
-            h5= comment.content
+            p= comment.content
 
       .card.card-block
-        h3 Add a comment:
+        h5 Add a comment:
         form(action="/posts/" + post.id + "/comments", method='POST')
           input(type='hidden' name='PostId' value="post.id" .form-group)
           textarea.form-control(rows='5', name='content' value=post.id .form-group)

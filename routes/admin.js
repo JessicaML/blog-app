@@ -54,6 +54,17 @@ router.post('/posts/:id/comments', (req, res) => {
   });
 });
 
+// puts edits post to db
+router.put('/posts/:id', (req, res) => {
+  db.Post.update(req.body, {
+    where: {
+      id: req.params.id
+    }
+  }).then(() => {
+    res.redirect('/admin/posts');
+  });
+});
+
 
 //deletes  blog data in db
 router.delete('/posts/:id', (req, res) => {

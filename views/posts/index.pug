@@ -1,4 +1,4 @@
-extends ./application.pug
+extends ../application.pug
 
 block content
   .container.col-md-4.float-xs-right
@@ -11,11 +11,11 @@ block content
         li
           a(href='#') Another Link
 
-        p Taxidermy williamsburg butcher, slow-carb mustache literally mumblecore affogato gentrify PBR&B cold-pressed. Hammock coloring book put a bird on it roof party. Godard fap aesthetic selvage, vinyl fixie pug YOLO try-hard poke lomo iceland. Blue bottle lyft distillery, craft beer man bun brooklyn salvia. Ennui tote bag bespoke post-ironic, normcore tattooed glossier church-key pitchfork PBRB iceland lyft.
 
   .container.col-md-8
     .row
       .col-xs-8.offset-xs-2
+
         h1 All posts from this blog
         hr
         each blogPost in blogPosts
@@ -24,4 +24,10 @@ block content
             .col-md-8
               a(href="/" + blogPost.slug)
                 h2= blogPost.title
-              p= blogPost.content
+                p= blogPost.content
+                .col-xs-6.text-xs-right
+                  a.btn.btn-warning(href='/admin/posts/' + blogPost.id +'/edit') Edit Post
+                .col-xs-6.text-xs-right
+                  form(action='/admin/posts/' + blogPost.id, method='POST')
+                    input(type='hidden', name='_method', value='DELETE')
+                    button.btn.btn-danger(type='submit') Remove Post
