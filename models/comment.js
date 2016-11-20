@@ -1,7 +1,14 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Comment = sequelize.define('Comment', {
-    content: DataTypes.TEXT
+    content: DataTypes.TEXT,
+    PostId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Posts',
+        key: 'id'
+      }
+    }
   }, {
     classMethods: {
       associate: function(models) {

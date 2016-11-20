@@ -19,9 +19,8 @@ block content
             //- h5= comment.content
 
       .card.card-block
-
         h3 Add a comment:
-        form(action='/comments', method='POST')
-          //- input(type='hidden' name='PostId' value='post.id' .form-group)
+        form(action="/posts/" + post.id + "/comments", method='POST' id="")
+          input(type='hidden' name='PostId' value='post.id' .form-group)
           textarea.form-control(rows='5', name='content' .form-group)
           button.btn.btn-success(type='submit') Add comment

@@ -14,6 +14,7 @@ router.get('/posts', (req, res) => {
   });
 });
 
+
 //gets new page
 router.get('/posts/new', (req, res) => {
   res.render('posts/new');
@@ -32,9 +33,29 @@ router.get('/posts/:id/edit', (req, res) => {
 
 //posts blogpost to db
 router.post('/posts', (req, res) => {
-  console.log("this works");
   db.Post.create(req.body).then((post) => {
     res.redirect('/' + post.slug);
+  });
+});
+
+console.log(db.Comment);
+
+console.log("yes");
+//posts comment
+router.post('/posts/:id/comments', (req, res) => {
+  console.log('hi');
+  console.log(req.params.id);
+  console.log(req.body);
+
+  db.Post.findById(req.params.id).then((post) => {
+    var comment = req.body;
+    comment.PostId = post.id;
+
+    db.Comment.create(comment).then(() => {
+      res.redirect('/' + post.slug);
+
+
+    });
   });
 });
 
