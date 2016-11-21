@@ -48,6 +48,12 @@ app.get('/', (req, res) => {
   });
 });
 
+//get register page
+
+
+//get login page
+
+
 //get post show page
 app.get('/:slug', (req, res) => {
   db.Post.findOne({

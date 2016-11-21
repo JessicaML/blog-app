@@ -20,6 +20,14 @@ router.get('/posts/new', (req, res) => {
   res.render('posts/new');
 });
 
+router.get('/users/new', (req, res) => {
+  res.render('users/new');
+});
+
+router.get('/login', (req, res) => {
+  res.render('/login');
+});
+
 //gets edit pg
 router.get('/posts/:id/edit', (req, res) => {
   db.Post.findOne({
@@ -48,8 +56,6 @@ router.post('/posts/:id/comments', (req, res) => {
 
     db.Comment.create(comment).then(() => {
       res.redirect('/' + post.slug);
-
-
     });
   });
 });

@@ -4,12 +4,12 @@ block content
   .container
     .row
       .col-xs-8.offset-xs-2
-        h1 Create an Account
+        h1 Login
         hr
-        form(action="/posts" method="POST")
+        form(action="/admin/posts" method="POST")
           div(class="form-group")
             label(for="post-title") Title
-            input(name="title" type="text" class="form-control" id="post-title")
+            input(name="title" type="text" class="form-control" id="title")
           div(class="form-group")
             label(for="post-cover-image") slug
             input(name="slug" type="text" class="form-control" id="slug")
