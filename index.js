@@ -48,10 +48,14 @@ app.get('/', (req, res) => {
   });
 });
 
-//get register page
-
-
-//get login page
+//post user data
+app.post('/users', (req, res) => {
+  db.User.create(req.body).then((user) => {
+    res.redirect('/');
+  }).catch(() => {
+    res.redirect('register');
+  });
+});
 
 
 //get post show page

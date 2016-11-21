@@ -6,15 +6,18 @@ block content
       .col-xs-8.offset-xs-2
         h1 Create an Account
         hr
-        form(action="/posts" method="POST")
+        form(action="/users" method="POST")
           div(class="form-group")
-            label(for="post-title") Title
-            input(name="title" type="text" class="form-control" id="post-title")
+            label(for="name") Name
+            input(name="name" type="text" class="form-control" id="name")
           div(class="form-group")
-            label(for="post-cover-image") slug
-            input(name="slug" type="text" class="form-control" id="slug")
+            label(for="surname") Surname
+            input(name="surname" type="text" class="form-control" id="surname")
           div(class="form-group")
-            label(for="post-description") content
-            textarea(name="content" class="form-control" rows=5 id="content")
+            label(for="email") Email
+            input(name="email" type="text" class="form-control" id="email")
+          div(class="form-group")
+            label(for="password") Password
+            input(name="password" type="text" class="form-control" id="password")
           div(class="form-group text-xs-right")
             button(type="submit" class="btn btn-lg btn-success") Create a post

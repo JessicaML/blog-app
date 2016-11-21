@@ -3,6 +3,24 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     router = express.Router();
 
+// var requireUser = (req, res, next) => {
+//   if (req.path === '/admin') {
+//     return next();
+//   }
+//   if (req.session.user) {
+//     next();
+//   } else {
+//     res.redirect('/login');
+//   }
+// };
+//
+// router.use(requireUser);
+
+router.get('/', (req, res) => {
+  res.redirect('/posts');
+});
+
+
 router.use(bodyParser.urlencoded({ extended: false}));
 
 //gets home page
@@ -20,12 +38,14 @@ router.get('/posts/new', (req, res) => {
   res.render('posts/new');
 });
 
+//get register page
 router.get('/users/new', (req, res) => {
   res.render('users/new');
 });
 
+//get login page
 router.get('/login', (req, res) => {
-  res.render('/login');
+  res.render('login');
 });
 
 //gets edit pg
