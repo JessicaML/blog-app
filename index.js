@@ -2,7 +2,8 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       methodOverride = require('method-override'),
       pug = require('pug'),
-      logger = require('morgan');
+      logger = require('morgan'),
+      session = require('express-session');
 
 
 var db = require('./models');
@@ -14,6 +15,8 @@ var adminRouter = require('./routes/admin');
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
+
+app.use(session({ secret: 'our secret key'}));
 
 app.use(bodyParser.urlencoded({ extended: false}));
 
@@ -40,11 +43,42 @@ app.post('/posts/:id/comments', (req, res) => {
 });
 
 
-
 //gets homepage list of posts
 app.get('/', (req, res) => {
+  console.log("hey");
+  console.log(req.session);
+
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
     res.render('index', { blogPosts: blogPosts});
+  });
+});
+
+app.get('/register', (req, res) => {
+  if (req.session.user) {
+    res.redirect('/admin/posts');
+  }
+  res.render('users/new');
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
+app.post('/login', (req, res) => {
+
+  db.User.findOne({
+    where: {
+      email: req.body.email
+    }
+  }).then((userInDB) => {
+    if (userInDB.password === req.body.password) {
+      req.session.user = userInDB;
+      res.redirect('/admin/posts');
+    } else {
+      res.redirect('/login');
+    }
+  }).catch(() => {
+    res.redirect('/login');
   });
 });
 
@@ -55,6 +89,11 @@ app.post('/users', (req, res) => {
   }).catch(() => {
     res.redirect('register');
   });
+});
+
+app.get('/logout', (req, res) => {
+  req.session.user = undefined;
+  res.redirect('/');
 });
 
 

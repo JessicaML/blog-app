@@ -11,8 +11,7 @@ block content
         li
           a(href='#') Another Link
 
-      a(href="login" style="margin-left:5px" class="btn btn-primary float-xs-right") Logout
-      //- a(href="admin/posts/new" style="margin-left:5px" class="btn btn-success float-xs-right") Create new post
+      a(href="login" style="margin-left:5px" class="btn btn-primary float-xs-right") Login
 
 
 
@@ -20,18 +19,18 @@ block content
     .row
       .col-xs-8.offset-xs-2
 
-        h1 All posts from this blog
+        h1 My blog posts
         hr
-        each blogPost in blogPosts
+        each userPost in userPosts
           .card.card-block
             .col-xs-12.col-md-8
             .col-md-8
               a(href="/" + blogPost.slug)
-                h2= blogPost.title
-                p= blogPost.content
+                h2= userPost.title
+                p= userPost.content
                 .col-xs-6.text-xs-right
-                  a.btn.btn-warning(href='/admin/posts/' + blogPost.id +'/edit') Edit Post
+                  a.btn.btn-warning(href='/admin/posts/' + userPost.id +'/edit') Edit Post
                 .col-xs-6.text-xs-right
-                  form(action='/admin/posts/' + blogPost.id, method='POST')
+                  form(action='/admin/posts/' + userPost.id, method='POST')
                     input(type='hidden', name='_method', value='DELETE')
                     button.btn.btn-danger(type='submit') Remove Post
