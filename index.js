@@ -12,11 +12,21 @@ var app = express();
 
 var adminRouter = require('./routes/admin');
 
+var authRouter = require('./routes/authentication');
+
 app.set('view engine', 'pug');
+
+app.use('/admin', adminRouter);
+
+app.use('/authentication', authRouter);
 
 app.use(logger('dev'));
 
-app.use(session({ secret: 'our secret key'}));
+app.use(session({
+   secret: 'our secret key',
+   resave: true,
+   saveUninitialized: true
+ }));
 
 app.use(bodyParser.urlencoded({ extended: false}));
 
@@ -28,8 +38,6 @@ app.use(methodOverride(function (req, res) {
     return method;
   }
 }));
-
-app.use('/admin', adminRouter);
 
 // comment posted to db
 app.post('/posts/:id/comments', (req, res) => {
@@ -45,44 +53,47 @@ app.post('/posts/:id/comments', (req, res) => {
 
 //gets homepage list of posts
 app.get('/', (req, res) => {
-  console.log("hey");
-  console.log(req.session);
-
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
     res.render('index', { blogPosts: blogPosts});
   });
 });
 
-app.get('/register', (req, res) => {
-  if (req.session.user) {
-    res.redirect('/admin/posts');
-  }
-  res.render('users/new');
-});
+//gets register page
+// app.get('/register', (req, res) => {
+//   if (req.session.user) {
+//     res.redirect('/admin/posts');
+//   }
+//   res.render('users/new');
+// });
 
 app.get('/login', (req, res) => {
   res.render('login');
 });
 
-app.post('/login', (req, res) => {
+// app.post('/login', (req, res) => {
+//   console.log(req.body.email);
+//   console.log(req.session.user);
+//   db.User.findOne({
+//     where: {
+//       email: req.body.email
+//     }
+//   }).then((userInDB) => {
+//     if (userInDB.password === req.body.password) {
+//       req.session.user = userInDB;
+//       res.redirect('/admin/posts');
+//       console.log("this happened");
+//       console.log(userInDB.password);
+//     } else {
+//       res.redirect('/login');
+//     }
+//   }).catch(() => {
+//     res.redirect('/login');
+//     console.log("this happened");
+//
+//   });
+// });
 
-  db.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then((userInDB) => {
-    if (userInDB.password === req.body.password) {
-      req.session.user = userInDB;
-      res.redirect('/admin/posts');
-    } else {
-      res.redirect('/login');
-    }
-  }).catch(() => {
-    res.redirect('/login');
-  });
-});
-
-//post user data
+//post user data for register
 app.post('/users', (req, res) => {
   db.User.create(req.body).then((user) => {
     res.redirect('/');
@@ -91,10 +102,11 @@ app.post('/users', (req, res) => {
   });
 });
 
-app.get('/logout', (req, res) => {
-  req.session.user = undefined;
-  res.redirect('/');
-});
+//
+// app.get('/logout', (req, res) => {
+//   req.session.user = undefined;
+//   res.redirect('/');
+// });
 
 
 //get post show page

@@ -26,7 +26,9 @@ router.use(bodyParser.urlencoded({ extended: false}));
 //gets home page
 router.get('/posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
-    res.render('posts/index', { blogPosts: blogPosts, user: req.session.user });
+    res.render('posts/index', { blogPosts: blogPosts,
+      //user: req.session.user
+     });
   }).catch((error) => {
     throw error;
   });
@@ -77,7 +79,7 @@ router.post('/posts', (req, res) => {
     res.redirect('/' + post.slug);
   }).catch((error) => {
     console.log(error);
-    res.render('posts/new', { errors: error.errors });
+    res.render('posts/new', { errors: error.errors })
   });
 });
 
