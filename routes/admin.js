@@ -25,11 +25,23 @@ router.use(bodyParser.urlencoded({ extended: false}));
 
 //gets home page
 router.get('/posts', (req, res) => {
-  db.Post.findAll().then((blogPosts) => {
-    res.render('posts/index', { blogPosts: blogPosts });
+  db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
+    res.render('posts/index', { blogPosts: blogPosts, user: req.session.user });
   }).catch((error) => {
     throw error;
   });
+});
+
+//gets userPosts
+
+//if statement to find only logged-in user posts
+
+router.get('/my-posts', (req, res) => {
+  // db.Post.findUserPosts({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
+    res.render('posts/user-posts')
+  // }).catch((error) => {
+  //   throw error;
+  // });
 });
 
 
