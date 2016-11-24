@@ -3,6 +3,7 @@ const express = require('express'),
       methodOverride = require('method-override'),
       pug = require('pug'),
       logger = require('morgan'),
+      bcrypt = require('bcrypt'),
       session = require('express-session');
 
 
@@ -84,12 +85,16 @@ app.post('/login', (req, res) => {
 
 //post user data
 app.post('/users', (req, res) => {
-  db.User.create(req.body).then((user) => {
-    res.redirect('/');
-  }).catch(() => {
-    res.redirect('register');
-  });
-});
+  var user = req.body;
+  bcrypt.hash(user.password, 10, (error, hash) => {
+    user.password = hash;
+    db.User.create(user).then((user) => {
+      res.redirect('/');
+    }).catch(() => {
+      res.redirect('/login');
+     });
+   });
+ });
 
 app.get('/logout', (req, res) => {
   req.session.user = undefined;
