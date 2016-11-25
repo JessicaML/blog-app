@@ -7,7 +7,7 @@ var express = require('express'),
 
 
 var transporter = nodemailer.createTransport(
-  'smtps://nycdaamswdi%40gmail.com:' + process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com'
+  'smtps://jessicamaryleach%40gmail.com:' + process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com'
 );
 
 //get forgot password page
@@ -18,6 +18,7 @@ router.get('/forgot-password', (req, res) => {
 
 //post forgot password data
 router.post('/forgot-password', (req, res) => {
+  console.log(req.body.email);
   db.User.findOne({
     where: {
       email: req.body.email
