@@ -87,7 +87,7 @@ router.get('/posts/:id/edit', (req, res) => {
   });
 });
 
-//gets a show-post page
+//posts blogpost to db
 router.post('/posts', (req, res) => {
   db.Post.create(req.body).then((post) => {
     res.redirect('/' + post.slug);
@@ -106,8 +106,19 @@ router.put('/posts/:id', (req, res) => {
     }
   }).then(() => {
     res.redirect('/admin/posts');
+  }).catch((error) => {
+    res.render('posts/new', { errors: error.errors });
+  })
+});
+
+router.get('/my-posts', (req, res) => {
+  db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
+    res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
+  }).catch((error) => {
+    throw error;
   });
 });
+
 
 //deletes post
 router.delete('/posts/:id', (req, res) => {

@@ -4,6 +4,15 @@ block content
   .container
       .row
         .col-xs-12.col-md-8
+
+          if errors
+            each error in errors
+              .alert.alert-danger(role='alert')
+                strong=error.message
+
+          h1 Edit post
+          hr
+
           form(action='/admin/posts/' + post.id, method='POST')
             input(type='hidden', name='_method', value='PUT')
             .form-group
@@ -16,4 +25,4 @@ block content
               label Post Content:
               textarea.form-control(type='text', rows='20', name='content' value=post.content)
             .form-group.text-xs-right
-              button.btn.btn-success.btn-lg(type='submit') Create blog post
+              button.btn.btn-success.btn-lg(type='submit') Edit post
