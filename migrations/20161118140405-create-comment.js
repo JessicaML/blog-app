@@ -19,7 +19,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      PostsId: {
+      PostId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Posts',

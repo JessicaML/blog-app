@@ -3,21 +3,28 @@ const express = require('express'),
       methodOverride = require('method-override'),
       pug = require('pug'),
       logger = require('morgan'),
-      session = require('express-session');
+      session = require('express-session'),
+      displayRoutes = require('express-routemap');
 
 
 var db = require('./models');
 
 var app = express();
 
-var adminRouter = require('./routes/admin');
+const adminRouter = require('./routes/admin'),
+      authenticationRouter = require('./routes/authentication'),
+      changePasswordRouter = require('./routes/change-password');
 
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 
-app.use(session({ secret: 'our secret key'}));
-
+app.use(session({
+  name: 'session-cookie',
+  secret: 'our secret key',
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(bodyParser.urlencoded({ extended: false}));
 
 app.use(methodOverride(function (req, res) {
@@ -45,9 +52,7 @@ app.post('/posts/:id/comments', (req, res) => {
 
 //gets homepage list of posts
 app.get('/', (req, res) => {
-  console.log("hey");
   console.log(req.session);
-
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
     res.render('index', { blogPosts: blogPosts});
   });
