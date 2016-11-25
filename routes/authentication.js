@@ -7,24 +7,26 @@ var express = require('express'),
 //get new user page
 router.get('/register', (req, res) => {
   if (req.session.user) {
-    res.redirect('/admin/posts');
+    res.redirect('/posts');
   }
-
   res.render('users/new');
 });
 
 //post new user data
 router.post('/users', (req, res) => {
+  console.log(req.body);
+  console.log(req.session.user);
+
   db.User.create(req.body).then((user) => {
     req.session.user = user;
-    res.redirect('/');
+    res.redirect('/login');
   }).catch(() => {
     res.redirect('/register');
   });
 });
 
 router.get('/login', (req, res) => {
-  res.redirect('/admin');
+  res.redirect('/admin/posts');
 });
 
 

@@ -1,29 +1,32 @@
 var express = require('express'),
     db = require('../models'),
-    bodyParser = require('body-parser'),
     router = express.Router();
 
-//block unlogged in user viewing admin panel    
+//block unlogged in user viewing admin panel
 
-// var requireUser = (req, res, next) => {
-//   if (req.path === '/admin') {
-//     return next();
-//   }
-//   if (req.session.user) {
-//     next();
-//   } else {
-//     res.redirect('/login');
-//   }
-// };
-//
-// router.use(requireUser);
+var requireUser = (req, res, next) => {
+  if (req.path === '/') {
+    return next();
+  }
+
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect('/admin');
+  }
+};
+
+
+router.use(requireUser);
 
 router.get('/', (req, res) => {
-  res.redirect('/posts');
+  if (req.session.user) {
+    res.redirect('/admin/posts');
+  }
+
+  res.render('login');
 });
 
-
-router.use(bodyParser.urlencoded({ extended: false}));
 
 //gets home page
 router.get('/posts', (req, res) => {
@@ -49,55 +52,28 @@ router.get('/my-posts', (req, res) => {
 
 //gets new page
 router.get('/posts/new', (req, res) => {
-  res.render('posts/new');
+  res.render('posts/new', { user: req.session.user });
 });
 
-//get register page
-router.get('/users/new', (req, res) => {
-  res.render('users/new');
-});
-
-//get login page
-router.get('/login', (req, res) => {
-  res.render('login');
-});
-
-//gets edit pg
+//gets edit post page
 router.get('/posts/:id/edit', (req, res) => {
   db.Post.findOne({
     where: {
       id: req.params.id
     }
   }).then((post) => {
-    res.render('posts/edit', { post: post });
+    res.render('posts/edit', { post: post, user: req.session.user });
   });
 });
 
-//posts blogpost to db
+//gets a show-post page
 router.post('/posts', (req, res) => {
   db.Post.create(req.body).then((post) => {
     res.redirect('/' + post.slug);
-  }).catch((error) => {
-    console.log(error);
-    res.render('posts/new', { errors: error.errors });
   });
 });
 
-//posts comment
-router.post('/posts/:id/comments', (req, res) => {
-  console.log(req.params.content);
-  console.log(db.comment);
-  db.Post.findById(req.params.id).then((post) => {
-    var comment = req.body;
-    comment.PostId = post.id;
-
-    db.Comment.create(comment).then(() => {
-      res.redirect('/' + post.slug);
-    });
-  });
-});
-
-// puts edits post to db
+//edits post data
 router.put('/posts/:id', (req, res) => {
   db.Post.update(req.body, {
     where: {
@@ -108,8 +84,7 @@ router.put('/posts/:id', (req, res) => {
   });
 });
 
-
-//deletes  blog data in db
+//deletes post
 router.delete('/posts/:id', (req, res) => {
   db.Post.destroy({
     where: {
