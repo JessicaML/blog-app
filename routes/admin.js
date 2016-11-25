@@ -42,14 +42,33 @@ router.get('/posts', (req, res) => {
 //if statement to find only logged-in user posts
 
 router.get('/my-posts', (req, res) => {
-  console.log("this parts working");
-  // db.Post.findUserPosts({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-    res.render('posts/my-posts')
-  // }).catch((error) => {
-  //   throw error;
-  // });
+  db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
+    res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
+  }).catch((error) => {
+    throw error;
+  });
 });
 
+for (i = 0; i < db.Post.length; i++) {
+    console.log(db.Post.length);
+    var thisUserPosts = [];
+    if (db.Post.UserId === UserId) {
+      thisUserPosts.push(db.Post.length[i]);
+    }
+}
+
+console.log(thisUserPosts);
+
+
+// router.get('/my-posts', (req, res) => {
+//   var userPosts = [posts];
+//   userPosts = post.UserId === req.session.userId
+//   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
+//     res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
+//   }).catch((error) => {
+//     throw error;
+//   });
+// });
 
 
 //gets new page

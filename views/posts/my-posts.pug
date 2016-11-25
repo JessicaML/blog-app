@@ -11,26 +11,20 @@ block content
         li
           a(href='#') Another Link
 
-      //- a(href="login" style="margin-left:5px" class="btn btn-primary float-xs-right") Login
-
-
-
   .container.col-md-8
     .row
       .col-xs-8.offset-xs-2
-
         h1 My blog posts
-        hr
-        //- each userPost in userPosts
+        each userPost in userPosts
           .card.card-block
             .col-xs-12.col-md-8
             .col-md-8
-              //- a(href="/" + userPost.slug)
-              //-   h2= userPost.title
-              //-   p= userPost.content
-              //-   .col-xs-6.text-xs-right
-              //-     a.btn.btn-warning(href='/admin/posts/' + userPost.id +'/edit') Edit Post
-              //-   .col-xs-6.text-xs-right
-              //-     form(action='/admin/posts/' + userPost.id, method='POST')
+              a(href="/" + userPost.slug)
+                h2= userPost.title
+                p= userPost.content
+                .col-xs-6.text-xs-right
+                  a.btn.btn-warning(href='/admin/posts/' + userPost.id +'/edit') Edit Post
+                .col-xs-6.text-xs-right
+                  form(action='/admin/posts/' + userPost.id, method='POST')
                     input(type='hidden', name='_method', value='DELETE')
                     button.btn.btn-danger(type='submit') Remove Post
