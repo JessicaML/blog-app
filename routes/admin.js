@@ -42,12 +42,14 @@ router.get('/posts', (req, res) => {
 //if statement to find only logged-in user posts
 
 router.get('/my-posts', (req, res) => {
+  console.log("this parts working");
   // db.Post.findUserPosts({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-    res.render('posts/user-posts')
+    res.render('posts/my-posts')
   // }).catch((error) => {
   //   throw error;
   // });
 });
+
 
 
 //gets new page

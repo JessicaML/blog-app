@@ -21,16 +21,16 @@ block content
 
         h1 My blog posts
         hr
-        each userPost in userPosts
+        //- each userPost in userPosts
           .card.card-block
             .col-xs-12.col-md-8
             .col-md-8
-              a(href="/" + userPost.slug)
-                h2= userPost.title
-                p= userPost.content
-                .col-xs-6.text-xs-right
-                  a.btn.btn-warning(href='/admin/posts/' + userPost.id +'/edit') Edit Post
-                .col-xs-6.text-xs-right
-                  form(action='/admin/posts/' + userPost.id, method='POST')
+              //- a(href="/" + userPost.slug)
+              //-   h2= userPost.title
+              //-   p= userPost.content
+              //-   .col-xs-6.text-xs-right
+              //-     a.btn.btn-warning(href='/admin/posts/' + userPost.id +'/edit') Edit Post
+              //-   .col-xs-6.text-xs-right
+              //-     form(action='/admin/posts/' + userPost.id, method='POST')
                     input(type='hidden', name='_method', value='DELETE')
                     button.btn.btn-danger(type='submit') Remove Post

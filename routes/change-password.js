@@ -12,6 +12,7 @@ var transporter = nodemailer.createTransport(
 
 //get forgot password page
 router.get('/forgot-password', (req, res) => {
+  console.log("this get req for forgot password works");
   res.render('forgot-password');
 });
 
