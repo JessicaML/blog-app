@@ -10,10 +10,12 @@ var transporter = nodemailer.createTransport(
   'smtps://nycdaamswdi%40gmail.com:' + process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com'
 );
 
+//get forgot password page
 router.get('/forgot-password', (req, res) => {
   res.render('forgot-password');
 });
 
+//post forgot password data
 router.post('/forgot-password', (req, res) => {
   db.User.findOne({
     where: {
@@ -46,6 +48,7 @@ router.post('/forgot-password', (req, res) => {
   });
 });
 
+//get change pw page
 router.get('/change-password/:passwordResetToken', (req, res) => {
   db.User.findOne({
     where: {
@@ -56,6 +59,7 @@ router.get('/change-password/:passwordResetToken', (req, res) => {
   });
 });
 
+//post new pw data
 router.post('/change-password/:passwordResetToken', (req, res) => {
   db.User.findOne({
     where: {

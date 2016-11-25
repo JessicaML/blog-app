@@ -3,6 +3,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     router = express.Router();
 
+//block unlogged in user viewing admin panel    
+
 // var requireUser = (req, res, next) => {
 //   if (req.path === '/admin') {
 //     return next();

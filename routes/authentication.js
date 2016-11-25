@@ -3,6 +3,8 @@ var express = require('express'),
     db = require('../models'),
     router = express.Router();
 
+
+//get new user page
 router.get('/register', (req, res) => {
   if (req.session.user) {
     res.redirect('/admin/posts');
@@ -11,6 +13,7 @@ router.get('/register', (req, res) => {
   res.render('users/new');
 });
 
+//post new user data
 router.post('/users', (req, res) => {
   db.User.create(req.body).then((user) => {
     req.session.user = user;
@@ -24,6 +27,8 @@ router.get('/login', (req, res) => {
   res.redirect('/admin');
 });
 
+
+//login user
 router.post('/login', (req, res) => {
   db.User.findOne({
     where: {
@@ -43,6 +48,7 @@ router.post('/login', (req, res) => {
   });
 });
 
+//log out user
 router.get('/logout', (req, res) => {
   req.session.user = undefined;
   res.redirect('/');

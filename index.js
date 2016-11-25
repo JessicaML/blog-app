@@ -37,12 +37,15 @@ app.use(methodOverride(function (req, res) {
 }));
 
 app.use('/admin', adminRouter);
+app.use('/', authenticationRouter);
+app.use('/', changePasswordRouter);
 
 // comment posted to db
 app.post('/posts/:id/comments', (req, res) => {
   db.Post.findById(req.params.id).then((post) => {
     var comment = req.body;
     comment.PostId = post.id;
+
     db.Comment.create(comment).then(() => {
       res.redirect('/' + post.slug);
         });
@@ -54,51 +57,8 @@ app.post('/posts/:id/comments', (req, res) => {
 app.get('/', (req, res) => {
   console.log(req.session);
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
-    res.render('index', { blogPosts: blogPosts});
+    res.render('index', { blogPosts: blogPosts, user: req.session.user });
   });
-});
-
-app.get('/register', (req, res) => {
-  if (req.session.user) {
-    res.redirect('/admin/posts');
-  }
-  res.render('users/new');
-});
-
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-app.post('/login', (req, res) => {
-
-  db.User.findOne({
-    where: {
-      email: req.body.email
-    }
-  }).then((userInDB) => {
-    if (userInDB.password === req.body.password) {
-      req.session.user = userInDB;
-      res.redirect('/admin/posts');
-    } else {
-      res.redirect('/login');
-    }
-  }).catch(() => {
-    res.redirect('/login');
-  });
-});
-
-//post user data
-app.post('/users', (req, res) => {
-  db.User.create(req.body).then((user) => {
-    res.redirect('/');
-  }).catch(() => {
-    res.redirect('register');
-  });
-});
-
-app.get('/logout', (req, res) => {
-  req.session.user = undefined;
-  res.redirect('/');
 });
 
 
