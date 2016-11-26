@@ -12,7 +12,6 @@ var transporter = nodemailer.createTransport(
 
 //get forgot password page
 router.get('/forgot-password', (req, res) => {
-  console.log("this get req for forgot password works");
   res.render('forgot-password');
 });
 
@@ -24,7 +23,9 @@ router.post('/forgot-password', (req, res) => {
       email: req.body.email
     }
   }).then((user) => {
+    console.log(user);
     if (user) {
+      //send email with unique link
       user.passwordResetToken = base64url(crypto.randomBytes(48));
       user.save().then((user) => {
         transporter.sendMail({
@@ -42,10 +43,10 @@ router.post('/forgot-password', (req, res) => {
           console.log(info);
         });
       });
-
+    //redirect to homepage
       res.redirect('/');
     } else {
-      res.redirect('/forgot-password');
+      res.redirect('/forgot-password', { error: { message: 'User not found in the database' } });
     }
   });
 });
