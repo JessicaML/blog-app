@@ -40,7 +40,11 @@ router.post('/forgot-password', (req, res) => {
         }, (error, info) => {
           if (error) { throw error; }
           console.log('Password reset email sent:');
-          console.log(info);
+          console.log("MMMMMM");
+          console.log("MMMMMM");
+          console.log("MMMMMM");
+          console.log("MMMMMM");
+
         });
       });
     //redirect to homepage
