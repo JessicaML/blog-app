@@ -40,15 +40,13 @@ router.post('/forgot-password', (req, res) => {
           if (error) { throw error; }
           console.log('Password reset email sent:');
           console.log("MMMMMM");
-          console.log("MMMMMM");
-          console.log("MMMMMM");
-          console.log("MMMMMM");
         });
       });
-    //redirect to homepage
+
+    //redirect to login pafe
       res.redirect('/login');
     } else {
-      res.redirect('/forgot-password', { error: { message: 'User not found in the database' } });
+      res.redirect('/forgot-password');
     }
   });
 });

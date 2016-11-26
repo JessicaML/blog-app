@@ -24,13 +24,13 @@ router.post('/users', (req, res) => {
   });
 });
 
-
+//gets login page
 router.get('/login', (req, res) => {
   res.redirect('/admin/posts');
 });
 
 
-//login user
+//post login user data, check pw is correct
 router.post('/login', (req, res) => {
   db.User.findOne({
     where: {

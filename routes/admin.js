@@ -2,7 +2,7 @@ var express = require('express'),
     db = require('../models'),
     router = express.Router();
 
-//block unlogged in user viewing admin panel
+//to see admin panel, users must be logged in
 
 var requireUser = (req, res, next) => {
   if (req.path === '/') {
@@ -16,8 +16,9 @@ var requireUser = (req, res, next) => {
   }
 };
 
-
 router.use(requireUser);
+
+//redirect unlogged-in users to log in pages
 
 router.get('/', (req, res) => {
   if (req.session.user) {
@@ -28,7 +29,7 @@ router.get('/', (req, res) => {
 });
 
 
-//gets home page
+//gets home page of logged-in admin panel
 router.get('/posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((blogPosts) => {
     res.render('posts/index', { blogPosts: blogPosts, user: req.session.user });
@@ -49,26 +50,20 @@ router.get('/my-posts', (req, res) => {
   });
 });
 
+var findUserPostsPosts = function() {
 for (i = 0; i < db.Post.length; i++) {
     console.log(db.Post.length);
     var thisUserPosts = [];
     if (db.Post.UserId === UserId) {
       thisUserPosts.push(db.Post.length[i]);
     }
+    return user;
 }
+}
+console.log("beh");
 
-console.log(thisUserPosts);
 
 
-// router.get('/my-posts', (req, res) => {
-//   var userPosts = [posts];
-//   userPosts = post.UserId === req.session.userId
-//   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-//     res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
-//   }).catch((error) => {
-//     throw error;
-//   });
-// });
 
 
 //gets new page
@@ -110,15 +105,6 @@ router.put('/posts/:id', (req, res) => {
     res.render('posts/new', { errors: error.errors });
   })
 });
-
-router.get('/my-posts', (req, res) => {
-  db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-    res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
-  }).catch((error) => {
-    throw error;
-  });
-});
-
 
 //deletes post
 router.delete('/posts/:id', (req, res) => {

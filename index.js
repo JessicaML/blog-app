@@ -27,6 +27,7 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: false}));
 
+// for deleting posts
 app.use(methodOverride(function (req, res) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
@@ -62,7 +63,7 @@ app.get('/', (req, res) => {
 });
 
 
-//get post show page
+//get individual post page
 app.get('/:slug', (req, res) => {
   db.Post.findOne({
     where: {
