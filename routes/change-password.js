@@ -6,9 +6,8 @@ var express = require('express'),
     router = express.Router();
 
 
-var transporter = nodemailer.createTransport(
-  'smtps://jessicamaryleach%40gmail.com:' + process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com'
-);
+    var transporter = nodemailer.createTransport('smtps://jessicamaryleach%40gmail.com:' + process.env.BLOG_APP_EMAIL_PASSWORD +'@smtp.gmail.com'
+    );
 
 //get forgot password page
 router.get('/forgot-password', (req, res) => {
@@ -30,7 +29,7 @@ router.post('/forgot-password', (req, res) => {
       user.save().then((user) => {
         transporter.sendMail({
           to: user.email,
-          subject: 'Blog routerlication password change request',
+          subject: 'Reset Password',
           text: `
             Hi there,
             You have requested to change your password. If you haven't requested it please ignore this email.
@@ -44,11 +43,10 @@ router.post('/forgot-password', (req, res) => {
           console.log("MMMMMM");
           console.log("MMMMMM");
           console.log("MMMMMM");
-
         });
       });
     //redirect to homepage
-      res.redirect('/');
+      res.redirect('/login');
     } else {
       res.redirect('/forgot-password', { error: { message: 'User not found in the database' } });
     }
