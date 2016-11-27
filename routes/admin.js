@@ -44,52 +44,23 @@ router.get('/posts', (req, res) => {
 
 router.get('/my-posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
+
+    console.log(userPosts);
+
+    for (i = 0; i < userPosts.length; i++) {
+        console.log(userPosts.length);
+        var thisUserPosts = [];
+        if (userPosts.UserId === req.session.user.id) {
+          thisUserPosts.push(userPosts.length[i]);
+        }
+        return thisUserPosts;
+    }
     res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
   }).catch((error) => {
     throw error;
   });
 });
 
-
-router.get('/my-posts', (req, res) => {
-  db.Post.findById(req.session.user.id).then((userPosts) => {
-    var userPosts = [];
-// if req.session.user.id === Post.UserId then push Post to userPosts
-      res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
-    }).catch((error) => {
-      throw error;
-    });
-  });
-
-
-// router.get('/my-posts', (req, res) => {
-//   db.Post.findById(req.session.user.id, {
-//     where: {
-//       post.UserId: req.session.user.id
-//     }
-//   }).then((userPosts) => {
-//     // if req.session.user.id === Post.UserId then push Post to userPosts
-//       res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
-//     }).catch((error) => {
-//       throw error;
-//     });
-//   });
-
-//post route defined
-// app.post('/posts/:id/comments', (req, res) => {
-//   //post in database find by id // current page post id then posts
-//   db.Post.findById(req.params.id).then((post) => {
-// // declare var as inside of comment text box
-//     var comment = req.body;
-//     // the comment id is equal to current post id
-//     comment.PostId = post.id;
-//     //create the comment
-//     db.Comment.create(comment).then(() => {
-//       //submit data and refresh page
-//       res.redirect('/' + post.slug);
-//         });
-//   });
-// });
 
 var findUserPostsPosts = function() {
 for (i = 0; i < db.Post.length; i++) {
