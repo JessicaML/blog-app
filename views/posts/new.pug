@@ -25,6 +25,6 @@ block content
             label(for="post-description") content
             textarea(name="content" class="form-control" rows=5 id="content")
           div(class="form-group")
-            input(type='hidden' name='UserId' .form-group)
+            input(type="hidden" name="UserId" value=user.id class="form-control")
           div(class="form-group text-xs-right")
             button(type="submit" class="btn btn-lg btn-success") Create a post
