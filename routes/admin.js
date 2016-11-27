@@ -45,34 +45,40 @@ router.get('/posts', (req, res) => {
 router.get('/my-posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
 
-    console.log(userPosts);
+    console.log("userposts length is....");
+    console.log(userPosts.length);
 
     for (i = 0; i < userPosts.length; i++) {
         console.log(userPosts.length);
         var thisUserPosts = [];
+        console.log(userPosts[i]);
+
         if (userPosts.UserId === req.session.user.id) {
-          thisUserPosts.push(userPosts.length[i]);
+          thisUserPosts.push(userPosts[i]);
         }
         return thisUserPosts;
+        console.log(thisUserPosts);
+
     }
-    res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
+    console.log(thisUserPosts);
+    res.render('posts/my-posts', { userPosts: userPosts, thisUserPosts: thisUserPosts, user: req.session.user });
   }).catch((error) => {
     throw error;
   });
 });
 
 
-var findUserPostsPosts = function() {
-for (i = 0; i < db.Post.length; i++) {
-    console.log(db.Post.length);
-    var thisUserPosts = [];
-    if (db.Post.UserId === UserId) {
-      thisUserPosts.push(db.Post.length[i]);
-    }
-    return user;
-}
-}
-console.log("beh");
+// var findUserPostsPosts = function() {
+// for (i = 0; i < db.Post.length; i++) {
+//     console.log(db.Post.length);
+//     var thisUserPosts = [];
+//     if (db.Post.UserId === UserId) {
+//       thisUserPosts.push(db.Post.length[i]);
+//     }
+//
+//     return user;
+// }
+// }
 
 
 

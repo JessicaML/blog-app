@@ -15,17 +15,17 @@ block content
     .row
       .col-xs-8.offset-xs-2
         h1 My blog posts
-        each userPost in userPosts
+        each thisUserPost in thisUserPosts
           .card.card-block
             .col-xs-12.col-md-8
             .col-md-8
-              a(href="/" + userPost.slug)
-                h2= userPost.title
-                h2= userPost.UserId
-                p= userPost.content
+              a(href="/" + thisUserPost.slug)
+                h2= thisUserPost.title
+                h2= thisUserPost.UserId
+                p= thisUserPost.content
                 .col-xs-6.text-xs-right
-                  a.btn.btn-warning(href='/admin/posts/' + userPost.id +'/edit') Edit Post
+                  a.btn.btn-warning(href='/admin/posts/' + thisUserPost.id +'/edit') Edit Post
                 .col-xs-6.text-xs-right
-                  form(action='/admin/posts/' + userPost.id, method='POST')
+                  form(action='/admin/posts/' + thisUserPost.id, method='POST')
                     input(type='hidden', name='_method', value='DELETE')
                     button.btn.btn-danger(type='submit') Remove Post
