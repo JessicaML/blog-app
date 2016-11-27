@@ -50,6 +50,47 @@ router.get('/my-posts', (req, res) => {
   });
 });
 
+
+router.get('/my-posts', (req, res) => {
+  db.Post.findById(req.session.user.id).then((userPosts) => {
+    var userPosts = [];
+// if req.session.user.id === Post.UserId then push Post to userPosts
+      res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
+    }).catch((error) => {
+      throw error;
+    });
+  });
+
+
+// router.get('/my-posts', (req, res) => {
+//   db.Post.findById(req.session.user.id, {
+//     where: {
+//       post.UserId: req.session.user.id
+//     }
+//   }).then((userPosts) => {
+//     // if req.session.user.id === Post.UserId then push Post to userPosts
+//       res.render('posts/my-posts', { userPosts: userPosts, user: req.session.user });
+//     }).catch((error) => {
+//       throw error;
+//     });
+//   });
+
+//post route defined
+// app.post('/posts/:id/comments', (req, res) => {
+//   //post in database find by id // current page post id then posts
+//   db.Post.findById(req.params.id).then((post) => {
+// // declare var as inside of comment text box
+//     var comment = req.body;
+//     // the comment id is equal to current post id
+//     comment.PostId = post.id;
+//     //create the comment
+//     db.Comment.create(comment).then(() => {
+//       //submit data and refresh page
+//       res.redirect('/' + post.slug);
+//         });
+//   });
+// });
+
 var findUserPostsPosts = function() {
 for (i = 0; i < db.Post.length; i++) {
     console.log(db.Post.length);
@@ -84,11 +125,12 @@ router.get('/posts/:id/edit', (req, res) => {
 
 //posts blogpost to db
 router.post('/posts', (req, res) => {
+  console.log("does this bit work?");
   db.Post.create(req.body).then((post) => {
     res.redirect('/' + post.slug);
     }).catch((error) => {
       console.log(error);
-      res.render('posts/new', { errors: error.errors });
+      res.render('posts/new', { errors: error.errors, user: req.session.user });
 
   });
 });

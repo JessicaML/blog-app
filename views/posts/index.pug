@@ -25,6 +25,7 @@ block content
             .col-md-8
               a(href="/" + blogPost.slug)
                 h2= blogPost.title
+                h2= blogPost.UserId
                 p= blogPost.content
                 .col-xs-6.text-xs-right
                   a.btn.btn-warning(href='/admin/posts/' + blogPost.id +'/edit') Edit Post
