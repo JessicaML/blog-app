@@ -112,18 +112,7 @@ router.get('/posts/new', (req, res) => {
   res.render('posts/new', { user: req.session.user });
 });
 
-//gets edit post page
-router.get('/posts/:id/edit', (req, res) => {
-  db.Post.findOne({
-    where: {
-      id: req.params.id
-    }
-  }).then((post) => {
-    res.render('posts/edit', { post: post, user: req.session.user });
-  });
-});
-
-//posts blogpost to db
+//posts new blogpost to db
 router.post('/posts', (req, res) => {
   console.log("does this bit work?");
   db.Post.create(req.body).then((post) => {
@@ -135,6 +124,17 @@ router.post('/posts', (req, res) => {
   });
 });
 
+//gets edit post page
+router.get('/posts/:id/edit', (req, res) => {
+  db.Post.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then((post) => {
+    res.render('posts/edit', { post: post, user: req.session.user });
+  });
+});
+
 //edits post data
 router.put('/posts/:id', (req, res) => {
   db.Post.update(req.body, {
@@ -143,9 +143,9 @@ router.put('/posts/:id', (req, res) => {
     }
   }).then(() => {
     res.redirect('/admin/posts');
-  }).catch((error) => {
-    res.render('posts/new', { errors: error.errors });
-  })
+  }).catch((post, error) => {
+    res.render('posts/edit', { post: post, user: req.session.user, error: { message: 'Check your post is long enough!' } });
+  });
 });
 
 //deletes post

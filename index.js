@@ -44,6 +44,7 @@ app.use('/', changePasswordRouter);
 // comment posted to db
 app.post('/posts/:id/comments', (req, res) => {
   db.Post.findById(req.params.id).then((post) => {
+    console.log(post.UserId);
     var comment = req.body;
     comment.PostId = post.id;
 

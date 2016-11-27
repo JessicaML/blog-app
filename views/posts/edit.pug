@@ -5,10 +5,9 @@ block content
       .row
         .col-xs-12.col-md-8
 
-          if errors
-            each error in errors
-              .alert.alert-danger(role='alert')
-                strong=error.message
+          if error
+            .alert.alert-danger(role='alert')
+              strong=error.message
 
           h1 Edit post
           hr
