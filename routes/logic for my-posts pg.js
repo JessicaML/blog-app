@@ -1,3 +1,36 @@
+router.get('/my-posts', (req, res) => {
+  db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
+    console.log("userposts length is....");
+    console.log(userPosts.length);
+    console.log(userPosts);
+
+    var thisUserPosts = [];
+
+    var findUserPosts = function(listOfObjects) {
+    for (i = 0; i < userPosts.length; i++) {
+        console.log(userPosts.length);
+        console.log("is this bloody working?");
+
+        console.log(userPosts);
+        var thisUserPosts = [];
+        if (userPosts.UserId === req.session.user.id) {
+          console.log(userPosts[i].id);
+          thisUserPosts.push(userPosts[i]);
+        }
+        console.log(thisUserPosts[0]);
+        console.log(thisUserPosts[0].text);
+
+        return thisUserPosts;
+    }
+    };
+  }).then((userPosts) => {
+    res.render('posts/my-posts', {userPosts: userPosts, user: req.session.user });
+  }).catch((error) => {
+    throw error;
+  });
+});
+
+
 var UserId = 1;
 
 var Posts = [
@@ -48,6 +81,22 @@ router.get('/my-posts', (req, res) => {
   }).catch((error) => {
     throw error;
   });
+});
+
+
+var p2 = new Promise(function(resolve, reject) {
+  resolve(1);
+});
+
+p2.then(function(value) {
+  console.log(value); // 1
+  return value + 1;
+}).then(function(value) {
+  console.log(value + "- This synchronous usage is virtually pointless"); // 2- This synchronous usage is virtually pointless
+});
+
+p2.then(function(value) {
+  console.log(value); // 1
 });
 
 //if statement to find only logged-in user posts

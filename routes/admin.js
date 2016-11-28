@@ -42,35 +42,33 @@ router.get('/posts', (req, res) => {
 
 router.get('/my-posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-  //   console.log("userposts length is....");
-  //   console.log(userPosts.length);
-  //   console.log(userPosts);
-  //
-  //   var thisUserPosts = [];
-  //
-  //   var findUserPosts = function(listOfObjects) {
-  //   for (i = 0; i < userPosts.length; i++) {
-  //       console.log(userPosts.length);
-  //       console.log("is this bloody working?");
-  //
-  //       console.log(userPosts);
-  //       var thisUserPosts = [];
-  //       if (userPosts[i].id === UserId) {
-  //         console.log(userPosts[i].id);
-  //         thisUserPosts.push(userPosts[i]);
-  //       }
-  //       console.log(thisUserPosts[0]);
-  //       console.log(thisUserPosts[0].text);
-  //
-  //       return thisUserPosts;
-  //   }
-  //   };
-  // }).then((userPosts) => {
+      console.log("userposts length is....");
+      console.log(userPosts.length);
+      console.log(userPosts);
+
+      var thisUserPosts = [];
+
+    for (i = 0; i < userPosts.length; i++) {
+        console.log(userPosts.length);
+        console.log("is this bloody working?");
+
+        console.log(userPosts);
+        console.log(thisUserPosts);
+        if (userPosts.UserId === req.session.user.id) {
+          console.log(userPosts[i].UserIdid);
+          thisUserPosts.push(userPosts[i]);
+        }
+        console.log(userPosts[0].content);
+
+        return userPosts;
+    }
+  }).then((userPosts) => {
     res.render('posts/my-posts', {userPosts: userPosts, user: req.session.user });
   }).catch((error) => {
     throw error;
   });
 });
+
 
 //if statement to find only logged-in user posts
 
