@@ -126,8 +126,7 @@ router.get('/my-posts', (req, res) => {
       for each (blogPost in blogPosts) {
 
     if (blogPost.UserId === req.session.user.id) {
-        // call a new function which will return a new promise object
-        // and return it
+      thisUserPosts.push(userPosts[i]);
         return ifTruePromise();
     } else {
         // do something, no new promise
