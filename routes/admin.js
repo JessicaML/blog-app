@@ -42,30 +42,14 @@ router.get('/posts', (req, res) => {
 
 router.get('/my-posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-      console.log("userposts length is....");
-      console.log(userPosts.length);
-
       var thisUserPosts = [];
-
-    for (i = 0; i < userPosts.length; i++) {
-        console.log("is this bloody working?");
-        console.log("post id is:");
-        console.log(userPosts[i].UserId);
-        console.log("session user id is:");
-        console.log(req.session.user.id);
-
-        if (userPosts[i].UserId === req.session.user.id) {
-          console.log("motherfuckin if statement");
-
-          console.log(userPosts[i].UserId);
+      for (i = 0; i < userPosts.length; i++) {
+          if (userPosts[i].UserId === req.session.user.id) {
           thisUserPosts.push(userPosts[i]);
         }
-        console.log("thisUserPosts...");
-        console.log(thisUserPosts.length);
-        console.log(userPosts.length);
-        console.log(userPosts[0].content);
-
-        return thisUserPosts;
+        if (i === userPosts.length - 1) {
+          return thisUserPosts;
+        }
     }
   }).then((thisUserPosts) => {
     res.render('posts/my-posts', {thisUserPosts: thisUserPosts, user: req.session.user });
