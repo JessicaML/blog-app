@@ -4,17 +4,16 @@ html
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous")
   body
     nav(class="navbar navbar-light bg-faded")
-      a(class="navbar-brand" href="/") Home
-
+      a(class="navbar-brand btn btn-default" href="/") Home
       if user
         a(href="/logout" style="margin-left:5px" class="btn btn-primary float-xs-right") Logout
-        a(href="admin/posts/new" style="margin-left:5px" class="btn btn-success float-xs-right") Create new post
+        a(href="admin/posts/new" style="margin-left:5px" class="btn btn-info float-xs-right") Create new post
+        a(href="admin/posts" style="margin-left:5px" class="btn btn-success float-xs-right") Admin panel
         a(href="admin/my-posts" style="margin-left:5px" class="btn btn-warning float-xs-right") My posts
-        p Welcome back, #{user.name}!
+        p(class="navbar-brand") Welcome back, #{user.name}!
 
       else
         a(href="/register" style="margin-left:5px" class="btn btn-primary float-xs-right") Register an account
         a(href="/login" style="margin-left:5px" class="btn btn-success float-xs-right") Login
-
 
     block content
