@@ -111,17 +111,19 @@ router.get('/posts/:id/edit', (req, res) => {
 });
 
 //edits post data
-router.put('/posts/:id', (req, res) => {
+router.put('/posts/:id/edit', (req, res) => {
   db.Post.update(req.body, {
     where: {
       id: req.params.id
     }
   }).then(() => {
     res.redirect('/admin/posts');
-  }).catch((post, error) => {
-    res.render('posts/edit', { post: post, user: req.session.user, error: { message: 'Check your post is long enough!' } });
+  }).catch((post, error, id) => {
+    res.render('posts/edit', { post: req.params, user: req.session.user, error: { message: 'Check your input' }, id: req.params.id });
   });
 });
+
+http://localhost:3000/admin/posts/undefined/edit
 
 //deletes post
 router.delete('/posts/:id', (req, res) => {

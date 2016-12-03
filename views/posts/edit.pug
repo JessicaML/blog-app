@@ -10,9 +10,10 @@ block content
               strong=error.message
 
           h1 Edit post
+          p=post.id
           hr
 
-          form(action='/admin/posts/' + post.id, method='POST')
+          form(action='/admin/posts/' + post.id + '/edit', method='POST')
             input(type='hidden', name='_method', value='PUT')
             .form-group
               label Post Title:
