@@ -67,7 +67,7 @@ router.get('/my-posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
 
     var thisUserPosts = [];
-    userPosts.filter(function(elem, index, array) {
+    userPosts.forEach(function(elem, index, array) {
       if (elem.UserId === req.session.user.id) {
         thisUserPosts.push(elem);
         }
