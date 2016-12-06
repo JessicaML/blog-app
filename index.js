@@ -4,7 +4,9 @@ const express = require('express'),
       pug = require('pug'),
       logger = require('morgan'),
       session = require('express-session'),
-      displayRoutes = require('express-routemap');
+      displayRoutes = require('express-routemap'),
+      pg = require('pg');
+
 
 
 var db = require('./models');
@@ -54,6 +56,17 @@ app.post('/posts/:id/comments', (req, res) => {
   });
 });
 
+app.get('/db', function (request, response) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM test_table', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.render('pages/db', {results: result.rows} ); }
+    });
+  });
+});
 
 //gets homepage list of posts
 app.get('/', (req, res) => {

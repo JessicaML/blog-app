@@ -1,23 +1,23 @@
-{
+module.exports = {
   "development": {
-    "username": "Jessica",
+    "username": process.env.DB_USERNAME,
     "password": null,
     "database": "blog-app",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "Jessica",
+    "username": process.env.DB_USERNAME,
     "password": null,
-    "database": "blog-app",
+    "database": "blog-app-test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "Jessica",
+    "username": process.env.DB_USERNAME,
     "password": null,
-    "database": "blog-app",
+    "database": "blog-app-production",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
-}
+};

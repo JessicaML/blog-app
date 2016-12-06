@@ -5,10 +5,25 @@ var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(module.filename);
 var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
+var config    = require(__dirname + '/../config/config.js')[env];
 var db        = {};
+var pg = require('pg');
 
-if (config.use_env_variable) {
+// pg.defaults.ssl = true;
+// pg.connect(process.env.DATABASE_URL, function(err, client) {
+//   if (err) throw err;
+//   console.log('Connected to postgres! Getting schemas...');
+//
+//   client
+//     .query('SELECT table_schema,table_name FROM information_schema.tables;')
+//     .on('row', function(row) {
+//       console.log(JSON.stringify(row));
+//     });
+// });
+
+if (process.env.NODE_ENV === 'production') {
+  var sequelize = new Sequelize(process.env.DATABASE_URL);
+} else if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
   var sequelize = new Sequelize(config.database, config.username, config.password, config);
