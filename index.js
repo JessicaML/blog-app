@@ -7,8 +7,6 @@ const express = require('express'),
       displayRoutes = require('express-routemap'),
       pg = require('pg');
 
-
-
 var db = require('./models');
 
 var app = express();

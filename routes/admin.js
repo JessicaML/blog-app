@@ -40,29 +40,6 @@ router.get('/posts', (req, res) => {
   });
 });
 
-//if statement to find only logged-in user posts
-
-// router.get('/my-posts', (req, res) => {
-//   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
-//       var thisUserPosts = [];
-//       var i;
-//       for (i = 0; i < userPosts.length; i++) {
-//           if (userPosts[i].UserId === req.session.user.id) {
-//           thisUserPosts.push(userPosts[i]);
-//         }
-//         if (i === userPosts.length - 1) {
-//           return thisUserPosts;
-//         }
-//       }
-//   }).then((thisUserPosts) => {
-//     res.render('posts/my-posts', {thisUserPosts: thisUserPosts, user: req.session.user });
-//   }).catch((error) => {
-//     throw error;
-//   });
-// });
-
-//forEach
-//
 router.get('/my-posts', (req, res) => {
   db.Post.findAll({ order: [['createdAt', 'DESC']] }).then((userPosts) => {
 

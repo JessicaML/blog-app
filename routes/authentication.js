@@ -19,7 +19,6 @@ router.post('/users', (req, res) => {
     req.session.user = user;
     res.redirect('/');
   }).catch((error) => {
-    console.log(error);
     res.render('users/new', { errors: error.errors });
   });
 });
