@@ -90,8 +90,10 @@ app.get('/:slug', (req, res) => {
   });
 });
 
+var port = process.env.PORT || 3000; 
+
 db.sequelize.sync().then(() => {
-  app.listen(3000, () => {
+  app.listen(port, () => {
     console.log('Web server started at port 3000!');
   });
 });
