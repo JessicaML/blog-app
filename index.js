@@ -5,7 +5,7 @@ const express = require('express'),
       logger = require('morgan'),
       session = require('express-session'),
       displayRoutes = require('express-routemap'),
-      pg = require('pg');
+      pg = require('pg').native;
 
 var db = require('./models');
 
@@ -90,10 +90,10 @@ app.get('/:slug', (req, res) => {
   });
 });
 
-var port = process.env.PORT || 3000; 
+var port = process.env.PORT || 3001; 
 
 db.sequelize.sync().then(() => {
   app.listen(port, () => {
-    console.log('Web server started at port 3000!');
+    console.log('Web server started at port 3001!');
   });
 });
